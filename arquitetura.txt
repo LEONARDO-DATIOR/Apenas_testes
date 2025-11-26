@@ -1,0 +1,38 @@
+REQ -> server.js -> app.js -> routes -> controller -> service -> repository -> service -> controller -> RES
+
+O Node faz:
+1️⃣ server.js
+→ sobe o servidor
+
+2️⃣ app.js
+→ configura express.json()
+→ chama Rotas(app)
+
+3️⃣ routes/index.js
+→ Chama subrotas
+→ app.use("/products", productsRoutes)
+→ app.use("/users", usersRoutes)
+
+4️⃣ controller
+→ chama service
+
+5️⃣ service
+→ chama repository
+
+6️⃣ repository
+→ faz query / salva / lê
+
+7️⃣ volta para o controller 
+→ controller responde JSON
+
+
+
+| Camada           | Responsabilidade                  |
+| ---------------- | --------------------------------- |
+| **server.js**    | Liga o servidor                   |
+| **app.js**       | Roteia as requisições             |
+| **controllers**  | Recebem req/res e chamam services |
+| **services**     | Regras de negócio, validações     |
+| **routes**       | Tabela de rotas URL -> controller |
+| **repositories** | Conversam com o banco             |
+| **models**       | Estrutura/forma dos dados         |
