@@ -1,11 +1,10 @@
 const { Router } = require('express')
+const UsuarioController = require('../controllers/UsuariosControllers.js')
 
 const router = Router();
 
-router.get("/", (req, res) => {
-    res.status(200).send("Agora entrou em")
-    // Chamar o controller no lugar de criar a função direto aqui
-});
+router.get("/", UsuarioController.list);
+router.post("/", UsuarioController.create);
 
 
 module.exports =  router;
