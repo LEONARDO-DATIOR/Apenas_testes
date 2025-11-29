@@ -3,9 +3,9 @@ const UsarioService = require('../services/UsuarioService.js');
 
 class UsuarioController {
 
-    list(req, res) {
-        const usuario = UsarioService.buscarTodos();
-        return res.json(usuario)
+    async list(req, res) {
+        const usuarios = await UsarioService.buscarTodos();
+        return res.json(usuarios)
     }
 
     get(req, res) {
@@ -18,10 +18,10 @@ class UsuarioController {
         }
     }
 
-    create(req, res) {
+    async create(req, res) {
         try {
-            const { nome, idade } = req.body;
-            const usuario = UsuarioService.criarUsuario(nome, idade);
+            const usuarioJson = req.body;
+            const usuario = await UsuarioService.criarUsuario(usuarioJson);
             return res.status(201).json(usuario);
         } catch (err) {
             return res.status(400).json({ error: err.message });

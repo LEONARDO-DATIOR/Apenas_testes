@@ -1,38 +1,53 @@
-REQ -> server.js -> app.js -> routes -> controller -> service -> repository -> service -> controller -> RES
+🔁 Fluxo geral: 
+REQ → server → app → routes → controller → service → repository → model → repository → service → controller → RES
 
-O Node faz:
+
+🧠 O Node faz:
+
 1️⃣ server.js
-→ sobe o servidor
+→ Sobe o servidor
+→ Só inicia tudo
 
 2️⃣ app.js
-→ configura express.json()
-→ chama Rotas(app)
+→ Importa o express
+→ Configura express.json()
+→ Conecta ao banco (Mongo)
+→ Importa o arquivo de rotas principal
 
 3️⃣ routes/index.js
-→ Chama subrotas
-→ app.use("/products", productsRoutes)
-→ app.use("/users", usersRoutes)
+→ Agrupa todas as rotas da API
+→ É o "mapa das URLs"
+→ Ele não tem lógica, apenas diz qual controller atende cada URL
 
-4️⃣ controller
-→ chama service
+4️⃣ Controller
+→ Recebe req/res
+→ Lê body, params, query
+→ NÃO trata regras de negócio
+→ Chama o service
 
-5️⃣ service
-→ chama repository
+5️⃣ Service
+→ Contém regras de negócio
+→ Validações
+→ Decisões
+→ Chama o repository para salvar/buscar dados
 
-6️⃣ repository
-→ faz query / salva / lê
+6️⃣ Repository
+→ Fala diretamente com o banco
+→ Cria, busca, atualiza e deleta
+→ Aqui é onde o Model entra!
 
-7️⃣ volta para o controller 
-→ controller responde JSON
+7️⃣ Model
+→ Define o schema e a estrutura dos dados
+→ É o que traduz sua collection do Mongo
+→ O repository usa o Model para consultar/salvar dados
+→ O model não tem lógica de negócio nem validação complexa
 
-
-
-| Camada           | Responsabilidade                  |
-| ---------------- | --------------------------------- |
-| **server.js**    | Liga o servidor                   |
-| **app.js**       | Roteia as requisições             |
-| **controllers**  | Recebem req/res e chamam services |
-| **services**     | Regras de negócio, validações     |
-| **routes**       | Tabela de rotas URL -> controller |
-| **repositories** | Conversam com o banco             |
-| **models**       | Estrutura/forma dos dados         |
+| Camada           | Responsabilidade                                        |
+| ---------------- | ------------------------------------------------------- |
+| **server.js**    | Liga o servidor                                         |
+| **app.js**       | Configura Express, conecta DB, registra rotas           |
+| **routes**       | Tabela de rotas: URL → controller                       |
+| **controllers**  | Recebem req/res e chamam services                       |
+| **services**     | Regras de negócio, validações, lógica da aplicação      |
+| **repositories** | Consultam o banco, usam os Models para executar queries |
+| **models**       | Estrutura dos dados (Schema + Model do Mongoose)        |

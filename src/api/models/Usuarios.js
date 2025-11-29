@@ -1,9 +1,11 @@
-class UserModel {
-    constructor(id, nome, idade) {
-        this.id = id;
-        this.nome = nome;
-        this.idade = idade;
-    }
-}
+const mongoose = require('mongoose')
 
-module.exports = UserModel;
+const usuarioSchema = new mongoose.Schema({
+    nome: {type: String, required: true},
+    idade: {type: Number}
+})
+
+const UsuarioModel = mongoose.model('Usuario', usuarioSchema)
+
+
+module.exports = UsuarioModel;

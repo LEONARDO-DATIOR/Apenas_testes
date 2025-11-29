@@ -2,8 +2,8 @@ const UsuarioRepositorie = require('../repositories/UsuariosRepositories.js')
 
 class UsuarioService {
 
-    buscarTodos() {
-        return UsuarioRepositorie.buscarTodos();
+    async buscarTodos() {
+        return await UsuarioRepositorie.buscarTodos();
     }
 
     buscarPorId(id) {
@@ -12,11 +12,9 @@ class UsuarioService {
         return usuario;
     }
 
-    criarUsuario(nome, idade) {
-        if (!nome) throw new Error("Nome é obrigatorio")
-        if (!idade) throw new Error("idade é obrigatorio")
-
-        return UsuarioRepositorie.criar(nome, idade)
+    async criarUsuario(usuarioJson) {
+        if (!usuarioJson.nome) throw new Error("Nome é obrigatorio")
+        return await UsuarioRepositorie.criar(usuarioJson)
     }
 
     atualizarUsuario(id, nome, idade) {
